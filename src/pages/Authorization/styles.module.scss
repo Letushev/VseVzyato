@@ -1,0 +1,69 @@
+@import 'styles/variables';
+
+.container {
+  margin-top: 96px;
+  text-align: center;
+}
+
+.form {
+  width: 350px;
+  margin: 56px auto 0;
+}
+
+.input {
+  margin-bottom: $l;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.invalidText {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translateX(calc(100% + #{$m}));
+  max-width: 225px;
+  text-align: left;
+  font-family: 'Marck Script', cursive;
+}
+
+.button {
+  margin: $s 0;
+}
+
+.authText {
+  font-size: 13px;
+  color: $darkGray;
+}
+
+.switcher {
+  color: $blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.avatarsContainer {
+  position: relative;
+  overflow: auto;
+  margin: $s 0;
+}
+
+.avatarsWrapper {
+  display: flex;
+  align-items: center;
+  margin: 0 (-$xs);
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 56px;
+  padding: 2px 2px 0;
+  margin: 0 $xs;
+  border: 2px solid transparent;
+  cursor: pointer;
+
+  &.selected {
+    border-color: $blue;
+  }
+}

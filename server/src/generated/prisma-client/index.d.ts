@@ -106,6 +106,8 @@ export type UserOrderByInput =
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
+  | "avatar_ASC"
+  | "avatar_DESC"
   | "password_ASC"
   | "password_DESC";
 
@@ -114,16 +116,19 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
+  avatar: String;
   password: String;
 }
 
 export interface UserUpdateInput {
   name?: Maybe<String>;
+  avatar?: Maybe<String>;
   password?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
+  avatar?: Maybe<String>;
   password?: Maybe<String>;
 }
 
@@ -156,6 +161,20 @@ export interface UserWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
+  avatar?: Maybe<String>;
+  avatar_not?: Maybe<String>;
+  avatar_in?: Maybe<String[] | String>;
+  avatar_not_in?: Maybe<String[] | String>;
+  avatar_lt?: Maybe<String>;
+  avatar_lte?: Maybe<String>;
+  avatar_gt?: Maybe<String>;
+  avatar_gte?: Maybe<String>;
+  avatar_contains?: Maybe<String>;
+  avatar_not_contains?: Maybe<String>;
+  avatar_starts_with?: Maybe<String>;
+  avatar_not_starts_with?: Maybe<String>;
+  avatar_ends_with?: Maybe<String>;
+  avatar_not_ends_with?: Maybe<String>;
   password?: Maybe<String>;
   password_not?: Maybe<String>;
   password_in?: Maybe<String[] | String>;
@@ -230,6 +249,7 @@ export interface BatchPayloadSubscription
 export interface UserPreviousValues {
   id: ID_Output;
   name: String;
+  avatar: String;
   password: String;
 }
 
@@ -238,6 +258,7 @@ export interface UserPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  avatar: () => Promise<String>;
   password: () => Promise<String>;
 }
 
@@ -246,6 +267,7 @@ export interface UserPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
 }
 
@@ -294,12 +316,14 @@ export interface UserSubscriptionPayloadSubscription
 export interface User {
   id: ID_Output;
   name: String;
+  avatar: String;
   password: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  avatar: () => Promise<String>;
   password: () => Promise<String>;
 }
 
@@ -308,6 +332,7 @@ export interface UserSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
 }
 
@@ -316,6 +341,7 @@ export interface UserNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  avatar: () => Promise<String>;
   password: () => Promise<String>;
 }
 

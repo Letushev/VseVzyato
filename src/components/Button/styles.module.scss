@@ -1,0 +1,30 @@
+@import 'styles/variables';
+
+.button {
+  background: none;
+  border: none;
+  padding: $s $m;
+  border-radius: $xs;
+  font-family: $fontFamily;
+  font-size: 15px;
+  letter-spacing: 1px;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.primary {
+  background: $primaryGreen;
+  color: #fff;
+}
+
+.big {
+  width: 100%;
+  height: $xxl;
+  font-size: 18px;
+}
+
+.disabled {
+  opacity: .7;
+  cursor: not-allowed;
+}

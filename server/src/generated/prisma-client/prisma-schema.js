@@ -53,6 +53,7 @@ type Subscription {
 type User {
   id: ID!
   name: String!
+  avatar: String!
   password: String!
 }
 
@@ -65,6 +66,7 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   name: String!
+  avatar: String!
   password: String!
 }
 
@@ -78,6 +80,8 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  avatar_ASC
+  avatar_DESC
   password_ASC
   password_DESC
 }
@@ -85,6 +89,7 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   name: String!
+  avatar: String!
   password: String!
 }
 
@@ -108,11 +113,13 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   name: String
+  avatar: String
   password: String
 }
 
 input UserUpdateManyMutationInput {
   name: String
+  avatar: String
   password: String
 }
 
@@ -145,6 +152,20 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  avatar: String
+  avatar_not: String
+  avatar_in: [String!]
+  avatar_not_in: [String!]
+  avatar_lt: String
+  avatar_lte: String
+  avatar_gt: String
+  avatar_gte: String
+  avatar_contains: String
+  avatar_not_contains: String
+  avatar_starts_with: String
+  avatar_not_starts_with: String
+  avatar_ends_with: String
+  avatar_not_ends_with: String
   password: String
   password_not: String
   password_in: [String!]

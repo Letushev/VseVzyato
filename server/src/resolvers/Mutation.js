@@ -13,6 +13,7 @@ async function signup(root, args, context) {
   const user = await context.prisma.createUser({
     name: args.name,
     password,
+    avatar: args.avatar,
   });
 
   const token = jwt.sign({ userId: user.id }, SECRET_KEY);
