@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './styles.module.scss';
 
-export function Button({ className, children, onClick, primary, big, disabled, ...props }) {
+export function Button({
+  className, children, onClick, primary, negative, big, disabled, ...props
+}) {
   return (
     <button
       className={cn(
@@ -11,6 +13,7 @@ export function Button({ className, children, onClick, primary, big, disabled, .
         primary && styles.primary,
         big && styles.big,
         disabled && styles.disabled,
+        negative && styles.negative,
         className,
       )}
       onClick={event => {
@@ -37,6 +40,7 @@ Button.propTypes = {
 Button.defaultProps = {
   primary: true,
   big: false,
+  negative: false,
   className: '',
   disabled: false,
 };

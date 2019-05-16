@@ -5,12 +5,13 @@ const { SECRET_KEY, getUserId } = require('../utils');
 async function signup(root, args, context) {
   const password = await bcrypt.hash(args.password, 10);
 
-  const isNameExist = await context.prisma.$exists.user({ name: args.name });
-  if (isNameExist) {
-    throw new Error("Користувач з таким іменем уже існує");
+  const exist = await context.prisma.$exists.user({ nick: args.nick });
+  if (exist) {
+    throw new Error("Користувач з таким нікнеймом уже існує");
   }
 
   const user = await context.prisma.createUser({
+    nick: args.nick,
     name: args.name,
     password,
     avatar: args.avatar,
@@ -22,9 +23,9 @@ async function signup(root, args, context) {
 }
 
 async function login(root, args, context) {
-  const user = await context.prisma.user({ name: args.name });
+  const user = await context.prisma.user({ nick: args.nick });
   if (!user) {
-    throw new Error("Користувача з таким іменем не існує");
+    throw new Error("Користувача з таким нікнеймом не існує");
   }
 
   const isValid = await bcrypt.compare(args.password, user.password);
@@ -37,7 +38,26 @@ async function login(root, args, context) {
   return { user, token };
 }
 
+async function editUser(root, args, context) {
+  const userId = getUserId(context);
+  return await context.prisma.updateUser({
+    data: {
+      ...!!args.avatar && {
+        avatar: args.avatar,
+      },
+      ...!!args.name && {
+        name: args.name,
+      },
+    },
+    where: {
+      id: userId,
+    }
+  });
+}
+
+
 module.exports = {
   signup,
   login,
+  editUser,
 };

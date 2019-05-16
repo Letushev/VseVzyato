@@ -3,23 +3,22 @@ import cn from 'classnames';
 import styles from './styles.module.scss';
 
 export function Input({
-  name, value, onChange, label, containerStyles,
-  invalid, startValidating, ...props
+  name, value, onChange, label, containerStyles, invalid, onAfterTouch, ...props
 }) {
   const [isActive, setIsActive] = useState(false);
-  const [wasTouched, setWasTouched] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
 
   const activate = () => {
     setIsActive(true);
   };
 
   const disactivate = () => {
-    setIsActive(false);
-
-    if (!wasTouched) {
-      setWasTouched(true);
-      startValidating();
+    if (!isTouched) {
+      onAfterTouch();
+      setIsTouched(true);
     }
+
+    setIsActive(false);
   };
 
 
@@ -49,7 +48,7 @@ export function Input({
         type="text"
         name={name}
         value={value}
-        onChange={event => onChange(event.target.value.trim())}
+        onChange={event => onChange(event.target.value)}
         onFocus={activate}
         onBlur={disactivate}
         {...props}
@@ -57,3 +56,7 @@ export function Input({
     </div>
   );
 }
+
+Input.defaultProps = {
+  onAfterTouch: () => {},
+};

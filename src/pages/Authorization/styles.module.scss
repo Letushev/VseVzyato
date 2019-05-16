@@ -47,6 +47,7 @@
   position: relative;
   overflow: auto;
   margin: $s 0;
+  padding-bottom: $xs;
 }
 
 .avatarsWrapper {
@@ -55,15 +56,37 @@
   margin: 0 (-$xs);
 }
 
-.avatar {
+.avatarContainer {
   flex-shrink: 0;
   width: 56px;
-  padding: 2px 2px 0;
+  padding: 4px 4px 0;
   margin: 0 $xs;
+  overflow: hidden;
+  border-radius: 50%;
   border: 2px solid transparent;
   cursor: pointer;
 
   &.selected {
     border-color: $blue;
   }
+}
+
+.avatar {
+  vertical-align: bottom;
+}
+
+.errors {
+  width: 350px;
+  margin: $s auto 0;
+}
+
+.error {
+  margin-bottom: $s;
+  display: flex;
+  align-items: center;
+}
+
+.errorIcon {
+  fill: $red;
+  margin-right: $s;
 }

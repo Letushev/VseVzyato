@@ -1,0 +1,57 @@
+@import 'styles/variables';
+
+.wrapper {
+  margin: 48px auto 0;
+  width: 350px;
+  text-align: center;
+}
+
+.avatar {
+  width: 200px;
+  vertical-align: middle;
+}
+
+.nick {
+  color: #fff;
+  font-size: 18px;
+  padding: $s $xs;
+  background: $red;
+}
+
+.changeAvatar {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  text-decoration: underline;
+  color: $darkGray;
+  cursor: pointer;
+}
+
+.modalAvatars {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: $s;
+}
+
+.modalAvatar {
+  width: $xxl;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.savePropose {
+  display: flex;
+  justify-content: space-between;
+  margin-top: $m;
+  opacity: 0;
+  transition: .4s ease-in;
+}
+
+.activePropose {
+  opacity: 1;
+}
+
+.proposeButton {
+  width: 48%;
+}

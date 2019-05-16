@@ -1,0 +1,69 @@
+@import 'styles/variables';
+
+.header {
+  position: relative;
+  width: 100%;
+  height: 64px;
+  border-bottom: 1px solid $lightGray;
+  padding: $s $l;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.avatar {
+  width: $l;
+  border-radius: 50%;
+}
+
+.userName {
+  font-size: 18px;
+  line-height: 18px;
+  margin: 0 $s;
+}
+
+.dropdownIcon {
+  transition: .2s;
+}
+
+.activeDropdownIcon {
+  transform: rotate(-180deg);
+}
+
+.profileDropdown {
+  position: absolute;
+  top: 100%;
+  right: $l;
+  min-width: 275px;
+  padding: $s 0;
+  border-radius: $xs;
+  box-shadow: 0 $xs $s rgba(0, 0, 0, .3);
+}
+
+.profileDropdownLink {
+  width: 100%;
+  display: block;
+  padding: $s $m;
+  outline: none;
+  text-decoration: none;
+  color: $textColor;
+  font-size: 18px;
+  cursor: pointer;
+
+  &:hover {
+    color: $textColor;
+    text-decoration: none;
+    background-color: $lightGray;
+  }
+}
+
+.logo {
+  outline: none;
+  text-decoration: none;
+}
