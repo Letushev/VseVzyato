@@ -1,5 +1,7 @@
 type Query {
   user: User
+
+  getList(id: ID!): List
   getLists: [List!]!
   getMemberLists: [List!]!
 }
@@ -7,9 +9,13 @@ type Query {
 type Mutation {
   signup(nick: String!, name: String!, password: String!, avatar: String!): AuthPayload
   login(nick: String!, password: String!): AuthPayload
+
   editUser(name: String, avatar: String): User
+  inviteUser(nick: String!, listId: ID!): User
+  refuseUser(nick: String!, listId: ID!): User
+
   createList(name: String!): List
-  inviteUser(nick: String!, listId: ID): List
+  deleteList(id: ID!): List
 }
 
 type AuthPayload {

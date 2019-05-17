@@ -1,0 +1,59 @@
+@import 'styles/variables';
+
+.loader {
+  margin: 125px auto;
+}
+
+.wrapper {
+  width: 375px;
+  margin: $xxl auto 0;
+}
+
+.heading {
+  text-align: center;
+}
+
+.addButton {
+  width: 100%;
+  margin-top: $m;
+}
+
+.error {
+  color: $red;
+  font-size: 13px;
+}
+
+.members {
+  list-style: none;
+  padding: 0;
+  margin-top: $xl;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  border-bottom: 1px solid $borderGray;
+  padding: $m 0;
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.avatar {
+  width: $l;
+  border-radius: 50%;
+  margin-right: $s;
+}
+
+.deleteIcon {
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.empty {
+  margin-top: $xl;
+  text-align: center;
+  font-size: 18px;
+}

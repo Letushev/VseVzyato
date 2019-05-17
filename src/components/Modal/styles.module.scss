@@ -24,12 +24,12 @@
 
 .header {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
 }
 
 .title {
-  margin: 0;
+  margin: 0 $l 0 0;
 }
 
 .closeIcon {

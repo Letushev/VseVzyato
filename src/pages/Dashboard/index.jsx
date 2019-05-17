@@ -102,6 +102,7 @@ export function DashboardPage() {
             lists.myLists.map(l => (
               <ListCard
                 key={l.id}
+                id={l.id}
                 name={l.name}
                 membersCount={l.members.length}
                 itemsCount={l.items.length}
@@ -126,6 +127,7 @@ export function DashboardPage() {
             lists.memberLists.map(l => (
               <ListCard
                 key={l.id}
+                id={l.id}
                 name={l.name}
                 membersCount={l.members.length}
                 itemsCount={l.items.length}

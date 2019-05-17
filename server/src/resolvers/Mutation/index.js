@@ -73,7 +73,7 @@ async function inviteUser(root, args, context) {
     throw new Error("Такого користувача не існує");
   }
 
-  return await context.prisma.updateList({
+  await context.prisma.updateList({
     data: {
       members: {
         connect: {
@@ -84,7 +84,32 @@ async function inviteUser(root, args, context) {
     where: {
       id: args.listId,
     },
-  })
+  });
+
+  return user;
+}
+
+async function refuseUser(root, args, context) {
+  const user = await context.prisma.user({ nick: args.nick });
+
+  await context.prisma.updateList({
+    data: {
+      members: {
+        disconnect: {
+          id: user.id
+        }
+      }
+    },
+    where: {
+      id: args.listId,
+    },
+  });
+
+  return user;
+}
+
+async function deleteList(root, args, context) {
+  return await context.prisma.deleteList({ id: args.id });
 }
 
 module.exports = {
@@ -93,4 +118,6 @@ module.exports = {
   editUser,
   createList,
   inviteUser,
+  refuseUser,
+  deleteList,
 };

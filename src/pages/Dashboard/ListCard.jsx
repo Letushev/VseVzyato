@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import * as Avatars from 'assets/avatars';
 import styles from './listCard.module.scss';
 
-export function ListCard({ name, membersCount, itemsCount, author }) {
+export function ListCard({ id, name, membersCount, itemsCount, author }) {
   const Avatar = author ? Avatars[author.avatar] : null;
   return (
-    <div className={styles.card}>
+    <Link to={`/lists/${id}`} className={styles.card}>
       <h3 className={styles.name}>{name}</h3>
       {
         author && (
@@ -17,6 +18,6 @@ export function ListCard({ name, membersCount, itemsCount, author }) {
       }
       <p className={styles.info}>Учасників - {membersCount}</p>
       <p className={styles.info}>Елементів - {itemsCount}</p>
-    </div>
+    </Link>
   )
 }

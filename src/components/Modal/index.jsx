@@ -31,6 +31,7 @@ export function Modal({ isOpened, children, onClose, title }) {
               <h3 className={styles.title}>{title}</h3>
               <CloseIcon
                 className={styles.closeIcon}
+                onClick={onClose}
               />
             </div>
           )

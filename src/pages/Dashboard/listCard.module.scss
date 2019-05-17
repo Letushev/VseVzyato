@@ -8,9 +8,14 @@
   transition: .3s ease-in-out;
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &:focus {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
+
+  color: $textColor;
+  text-decoration: none;
+  outline: none;
 }
 
 .name {

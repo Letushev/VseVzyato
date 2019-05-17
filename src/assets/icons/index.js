@@ -6,3 +6,5 @@ export { ReactComponent as MemberIcon } from './member.svg';
 export { ReactComponent as BoxIcon } from './box.svg';
 export { ReactComponent as TeamIcon } from './team.svg';
 export { ReactComponent as CloseIcon } from './close.svg';
+export { ReactComponent as DeleteIcon } from './delete.svg';
+export { ReactComponent as SettingsIcon } from './settings.svg';

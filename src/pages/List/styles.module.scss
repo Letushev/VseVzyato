@@ -1,0 +1,48 @@
+@import 'styles/variables';
+
+.loader {
+  margin: 125px auto;
+}
+
+.wrapper {
+  padding: $s $l;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.membersLink {
+  display: inline-flex;
+  align-items: center;
+  font-size: 21px;
+  text-decoration: none;
+  color: $blue;
+}
+
+.membersIcon {
+  margin-right: $s;
+  width: $xl;
+  height: $xl;
+  fill: $blue;
+}
+
+.deleteListIcon {
+  fill: $red;
+  width: $xl;
+  height: $xl;
+  margin-left: $l;
+  cursor: pointer;
+}
+
+.deleteListButton {
+  width: 100%;
+  margin-top: $l;
+  background: $red;
+
+  &:hover {
+    background: $red;
+  }
+}
