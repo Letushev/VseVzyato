@@ -17,5 +17,3 @@ module.exports = {
   SECRET_KEY,
   getUserId,
 };
-
-// cjvqomi5j004o0759783wk8tn

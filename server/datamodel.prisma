@@ -12,22 +12,17 @@ type List {
   id: ID! @id
   name: String!
   createdBy: User! @relation(name: "UserListRelation")
-  categories: [Category!]!
   members: [User!]! @relation(name: "MemberListRelation")
-  items: [Item!]!
-}
-
-type Category {
-  id: ID! @id
-  name: String! @unique
+  items: [Item!]! @relation(name: "ItemListRelation")
 }
 
 type Item {
   id: ID! @id
   name: String!
-  description: String
+  count: String
   priority: Priority! @default(value: MEDIUM)
-  category: Category!
+  list: List! @relation(name: "ItemListRelation")
+  members: [User!]!
 }
 
 enum Priority {

@@ -1,5 +1,5 @@
 const { getUserId } = require('../../utils');
-const list = require('./List.js');
+const list = require('./List');
 
 async function user(root, args, context) {
   const userId = getUserId(context);

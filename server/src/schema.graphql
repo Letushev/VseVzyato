@@ -1,6 +1,5 @@
 type Query {
   user: User
-
   getList(id: ID!): List
   getLists: [List!]!
   getMemberLists: [List!]!
@@ -16,6 +15,10 @@ type Mutation {
 
   createList(name: String!): List
   deleteList(id: ID!): List
+
+  createItem(name: String!, count: String, priority: Priority!, listId: String!, members: [String!]): Item
+  deleteItem(id: ID!): Item
+  editItem(id: ID!, name: String, count: String, priority: Priority, members: [String!]): Item
 }
 
 type AuthPayload {
@@ -36,22 +39,17 @@ type List {
   id: ID!
   name: String!
   createdBy: User!
-  categories: [Category!]!
   items: [Item!]!
   members: [User!]!
-}
-
-type Category {
-  id: ID!
-  name: String!
 }
 
 type Item {
   id: ID!
   name: String!
-  description: String
+  count: String
   priority: Priority!
-  category: Category!
+  list: List!
+  members: [User!]!
 }
 
 enum Priority {

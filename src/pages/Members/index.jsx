@@ -7,7 +7,7 @@ import { Button } from 'components/Button';
 import { CloseIcon } from 'assets/icons';
 import styles from './styles.module.scss';
 
-const getMembers = `
+export const getMembers = `
   query getMembers($id: ID!) {
     getList(id: $id) {
       members {

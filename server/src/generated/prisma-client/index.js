@@ -13,10 +13,6 @@ var models = [
     embedded: false
   },
   {
-    name: "Category",
-    embedded: false
-  },
-  {
     name: "Item",
     embedded: false
   },

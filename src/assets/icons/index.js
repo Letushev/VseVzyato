@@ -8,3 +8,4 @@ export { ReactComponent as TeamIcon } from './team.svg';
 export { ReactComponent as CloseIcon } from './close.svg';
 export { ReactComponent as DeleteIcon } from './delete.svg';
 export { ReactComponent as SettingsIcon } from './settings.svg';
+export { ReactComponent as AddIcon } from './add.svg';

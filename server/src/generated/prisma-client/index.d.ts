@@ -16,7 +16,6 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
-  category: (where?: CategoryWhereInput) => Promise<boolean>;
   item: (where?: ItemWhereInput) => Promise<boolean>;
   list: (where?: ListWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -41,25 +40,6 @@ export interface Prisma {
    * Queries
    */
 
-  category: (where: CategoryWhereUniqueInput) => CategoryNullablePromise;
-  categories: (args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Category>;
-  categoriesConnection: (args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => CategoryConnectionPromise;
   item: (where: ItemWhereUniqueInput) => ItemNullablePromise;
   items: (args?: {
     where?: ItemWhereInput;
@@ -123,22 +103,6 @@ export interface Prisma {
    * Mutations
    */
 
-  createCategory: (data: CategoryCreateInput) => CategoryPromise;
-  updateCategory: (args: {
-    data: CategoryUpdateInput;
-    where: CategoryWhereUniqueInput;
-  }) => CategoryPromise;
-  updateManyCategories: (args: {
-    data: CategoryUpdateManyMutationInput;
-    where?: CategoryWhereInput;
-  }) => BatchPayloadPromise;
-  upsertCategory: (args: {
-    where: CategoryWhereUniqueInput;
-    create: CategoryCreateInput;
-    update: CategoryUpdateInput;
-  }) => CategoryPromise;
-  deleteCategory: (where: CategoryWhereUniqueInput) => CategoryPromise;
-  deleteManyCategories: (where?: CategoryWhereInput) => BatchPayloadPromise;
   createItem: (data: ItemCreateInput) => ItemPromise;
   updateItem: (args: {
     data: ItemUpdateInput;
@@ -196,9 +160,6 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  category: (
-    where?: CategorySubscriptionWhereInput
-  ) => CategorySubscriptionPayloadSubscription;
   item: (
     where?: ItemSubscriptionWhereInput
   ) => ItemSubscriptionPayloadSubscription;
@@ -218,24 +179,6 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type Priority = "LOW" | "MEDIUM" | "HIGH";
-
-export type ItemOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "priority_ASC"
-  | "priority_DESC";
-
-export type CategoryOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC";
-
 export type ListOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
 
 export type UserOrderByInput =
@@ -250,185 +193,49 @@ export type UserOrderByInput =
   | "password_ASC"
   | "password_DESC";
 
+export type Priority = "LOW" | "MEDIUM" | "HIGH";
+
+export type ItemOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "count_ASC"
+  | "count_DESC"
+  | "priority_ASC"
+  | "priority_DESC";
+
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface UserCreateWithoutMemberListsInput {
-  id?: Maybe<ID_Input>;
-  nick: String;
-  name: String;
-  avatar: String;
-  password: String;
-  lists?: Maybe<ListCreateManyWithoutCreatedByInput>;
-}
-
-export type CategoryWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  name?: Maybe<String>;
-}>;
-
-export interface CategoryUpdateDataInput {
-  name?: Maybe<String>;
-}
-
-export interface ListUpdateManyWithWhereNestedInput {
-  where: ListScalarWhereInput;
-  data: ListUpdateManyDataInput;
-}
-
-export interface CategoryUpsertNestedInput {
-  update: CategoryUpdateDataInput;
-  create: CategoryCreateInput;
-}
-
-export interface UserUpdateOneRequiredWithoutListsInput {
-  create?: Maybe<UserCreateWithoutListsInput>;
-  update?: Maybe<UserUpdateWithoutListsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutListsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface ItemUpdateManyMutationInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  priority?: Maybe<Priority>;
-}
-
-export interface ListSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ListWhereInput>;
-  AND?: Maybe<ListSubscriptionWhereInput[] | ListSubscriptionWhereInput>;
-  OR?: Maybe<ListSubscriptionWhereInput[] | ListSubscriptionWhereInput>;
-  NOT?: Maybe<ListSubscriptionWhereInput[] | ListSubscriptionWhereInput>;
-}
-
-export interface ListCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  createdBy: UserCreateOneWithoutListsInput;
-  categories?: Maybe<CategoryCreateManyInput>;
-  members?: Maybe<UserCreateManyWithoutMemberListsInput>;
-  items?: Maybe<ItemCreateManyInput>;
-}
-
-export interface ItemSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ItemWhereInput>;
-  AND?: Maybe<ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput>;
-  OR?: Maybe<ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput>;
-  NOT?: Maybe<ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput>;
-}
-
-export interface UserCreateOneWithoutListsInput {
-  create?: Maybe<UserCreateWithoutListsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface ItemWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  priority?: Maybe<Priority>;
-  priority_not?: Maybe<Priority>;
-  priority_in?: Maybe<Priority[] | Priority>;
-  priority_not_in?: Maybe<Priority[] | Priority>;
-  category?: Maybe<CategoryWhereInput>;
-  AND?: Maybe<ItemWhereInput[] | ItemWhereInput>;
-  OR?: Maybe<ItemWhereInput[] | ItemWhereInput>;
-  NOT?: Maybe<ItemWhereInput[] | ItemWhereInput>;
-}
-
-export interface UserCreateWithoutListsInput {
-  id?: Maybe<ID_Input>;
-  nick: String;
-  name: String;
-  avatar: String;
-  password: String;
-  memberLists?: Maybe<ListCreateManyWithoutMembersInput>;
-}
-
-export interface UserUpdateInput {
-  nick?: Maybe<String>;
-  name?: Maybe<String>;
-  avatar?: Maybe<String>;
-  password?: Maybe<String>;
-  lists?: Maybe<ListUpdateManyWithoutCreatedByInput>;
-  memberLists?: Maybe<ListUpdateManyWithoutMembersInput>;
-}
-
-export interface ListCreateManyWithoutMembersInput {
+export interface ListUpdateManyWithoutMembersInput {
   create?: Maybe<
     ListCreateWithoutMembersInput[] | ListCreateWithoutMembersInput
   >;
+  delete?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
   connect?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
+  set?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
+  disconnect?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
+  update?: Maybe<
+    | ListUpdateWithWhereUniqueWithoutMembersInput[]
+    | ListUpdateWithWhereUniqueWithoutMembersInput
+  >;
+  upsert?: Maybe<
+    | ListUpsertWithWhereUniqueWithoutMembersInput[]
+    | ListUpsertWithWhereUniqueWithoutMembersInput
+  >;
+  deleteMany?: Maybe<ListScalarWhereInput[] | ListScalarWhereInput>;
+  updateMany?: Maybe<
+    ListUpdateManyWithWhereNestedInput[] | ListUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface ListUpdateManyMutationInput {
-  name?: Maybe<String>;
-}
+export type ItemWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
-export interface ListCreateWithoutMembersInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  createdBy: UserCreateOneWithoutListsInput;
-  categories?: Maybe<CategoryCreateManyInput>;
-  items?: Maybe<ItemCreateManyInput>;
-}
-
-export interface UserUpdateManyDataInput {
-  nick?: Maybe<String>;
-  name?: Maybe<String>;
-  avatar?: Maybe<String>;
-  password?: Maybe<String>;
-}
-
-export interface CategoryCreateManyInput {
-  create?: Maybe<CategoryCreateInput[] | CategoryCreateInput>;
-  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+export interface ItemUpdateWithWhereUniqueWithoutListInput {
+  where: ItemWhereUniqueInput;
+  data: ItemUpdateWithoutListDataInput;
 }
 
 export interface ListWhereInput {
@@ -461,9 +268,6 @@ export interface ListWhereInput {
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
   createdBy?: Maybe<UserWhereInput>;
-  categories_every?: Maybe<CategoryWhereInput>;
-  categories_some?: Maybe<CategoryWhereInput>;
-  categories_none?: Maybe<CategoryWhereInput>;
   members_every?: Maybe<UserWhereInput>;
   members_some?: Maybe<UserWhereInput>;
   members_none?: Maybe<UserWhereInput>;
@@ -475,12 +279,14 @@ export interface ListWhereInput {
   NOT?: Maybe<ListWhereInput[] | ListWhereInput>;
 }
 
-export interface ItemCreateManyInput {
-  create?: Maybe<ItemCreateInput[] | ItemCreateInput>;
-  connect?: Maybe<ItemWhereUniqueInput[] | ItemWhereUniqueInput>;
+export interface ItemUpdateWithoutListDataInput {
+  name?: Maybe<String>;
+  count?: Maybe<String>;
+  priority?: Maybe<Priority>;
+  members?: Maybe<UserUpdateManyInput>;
 }
 
-export interface CategoryWhereInput {
+export interface ItemWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -509,82 +315,115 @@ export interface CategoryWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
-  OR?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
-  NOT?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
+  count?: Maybe<String>;
+  count_not?: Maybe<String>;
+  count_in?: Maybe<String[] | String>;
+  count_not_in?: Maybe<String[] | String>;
+  count_lt?: Maybe<String>;
+  count_lte?: Maybe<String>;
+  count_gt?: Maybe<String>;
+  count_gte?: Maybe<String>;
+  count_contains?: Maybe<String>;
+  count_not_contains?: Maybe<String>;
+  count_starts_with?: Maybe<String>;
+  count_not_starts_with?: Maybe<String>;
+  count_ends_with?: Maybe<String>;
+  count_not_ends_with?: Maybe<String>;
+  priority?: Maybe<Priority>;
+  priority_not?: Maybe<Priority>;
+  priority_in?: Maybe<Priority[] | Priority>;
+  priority_not_in?: Maybe<Priority[] | Priority>;
+  list?: Maybe<ListWhereInput>;
+  members_every?: Maybe<UserWhereInput>;
+  members_some?: Maybe<UserWhereInput>;
+  members_none?: Maybe<UserWhereInput>;
+  AND?: Maybe<ItemWhereInput[] | ItemWhereInput>;
+  OR?: Maybe<ItemWhereInput[] | ItemWhereInput>;
+  NOT?: Maybe<ItemWhereInput[] | ItemWhereInput>;
 }
 
-export interface UserCreateManyWithoutMemberListsInput {
-  create?: Maybe<
-    UserCreateWithoutMemberListsInput[] | UserCreateWithoutMemberListsInput
-  >;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-}
-
-export interface UserUpsertWithWhereUniqueWithoutMemberListsInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutMemberListsDataInput;
-  create: UserCreateWithoutMemberListsInput;
-}
-
-export interface UserUpsertWithoutListsInput {
-  update: UserUpdateWithoutListsDataInput;
-  create: UserCreateWithoutListsInput;
-}
-
-export interface ListUpdateWithoutCreatedByDataInput {
-  name?: Maybe<String>;
-  categories?: Maybe<CategoryUpdateManyInput>;
-  members?: Maybe<UserUpdateManyWithoutMemberListsInput>;
-  items?: Maybe<ItemUpdateManyInput>;
-}
-
-export interface ListCreateManyWithoutCreatedByInput {
-  create?: Maybe<
-    ListCreateWithoutCreatedByInput[] | ListCreateWithoutCreatedByInput
-  >;
-  connect?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
-}
-
-export interface ListUpdateWithWhereUniqueWithoutCreatedByInput {
-  where: ListWhereUniqueInput;
-  data: ListUpdateWithoutCreatedByDataInput;
-}
-
-export interface ListCreateWithoutCreatedByInput {
+export interface UserCreateWithoutMemberListsInput {
   id?: Maybe<ID_Input>;
+  nick: String;
   name: String;
-  categories?: Maybe<CategoryCreateManyInput>;
-  members?: Maybe<UserCreateManyWithoutMemberListsInput>;
-  items?: Maybe<ItemCreateManyInput>;
+  avatar: String;
+  password: String;
+  lists?: Maybe<ListCreateManyWithoutCreatedByInput>;
 }
 
-export interface UserUpdateWithoutMemberListsDataInput {
+export interface ItemUpsertWithWhereUniqueWithoutListInput {
+  where: ItemWhereUniqueInput;
+  update: ItemUpdateWithoutListDataInput;
+  create: ItemCreateWithoutListInput;
+}
+
+export interface ItemUpdateInput {
+  name?: Maybe<String>;
+  count?: Maybe<String>;
+  priority?: Maybe<Priority>;
+  list?: Maybe<ListUpdateOneRequiredWithoutItemsInput>;
+  members?: Maybe<UserUpdateManyInput>;
+}
+
+export interface UserUpdateManyInput {
+  create?: Maybe<UserCreateInput[] | UserCreateInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueNestedInput[]
+    | UserUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueNestedInput[]
+    | UserUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ListUpdateOneRequiredWithoutItemsInput {
+  create?: Maybe<ListCreateWithoutItemsInput>;
+  update?: Maybe<ListUpdateWithoutItemsDataInput>;
+  upsert?: Maybe<ListUpsertWithoutItemsInput>;
+  connect?: Maybe<ListWhereUniqueInput>;
+}
+
+export interface ListSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ListWhereInput>;
+  AND?: Maybe<ListSubscriptionWhereInput[] | ListSubscriptionWhereInput>;
+  OR?: Maybe<ListSubscriptionWhereInput[] | ListSubscriptionWhereInput>;
+  NOT?: Maybe<ListSubscriptionWhereInput[] | ListSubscriptionWhereInput>;
+}
+
+export interface ListUpdateWithoutItemsDataInput {
+  name?: Maybe<String>;
+  createdBy?: Maybe<UserUpdateOneRequiredWithoutListsInput>;
+  members?: Maybe<UserUpdateManyWithoutMemberListsInput>;
+}
+
+export interface UserUpdateManyMutationInput {
   nick?: Maybe<String>;
   name?: Maybe<String>;
   avatar?: Maybe<String>;
   password?: Maybe<String>;
-  lists?: Maybe<ListUpdateManyWithoutCreatedByInput>;
 }
 
-export interface ListUpdateInput {
-  name?: Maybe<String>;
-  createdBy?: Maybe<UserUpdateOneRequiredWithoutListsInput>;
-  categories?: Maybe<CategoryUpdateManyInput>;
-  members?: Maybe<UserUpdateManyWithoutMemberListsInput>;
-  items?: Maybe<ItemUpdateManyInput>;
+export interface UserUpdateOneRequiredWithoutListsInput {
+  create?: Maybe<UserCreateWithoutListsInput>;
+  update?: Maybe<UserUpdateWithoutListsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutListsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface CategoryCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-}
-
-export interface ListUpdateManyDataInput {
-  name?: Maybe<String>;
-}
-
-export interface CategoryUpdateManyMutationInput {
+export interface ListUpdateManyMutationInput {
   name?: Maybe<String>;
 }
 
@@ -596,53 +435,23 @@ export interface UserUpdateWithoutListsDataInput {
   memberLists?: Maybe<ListUpdateManyWithoutMembersInput>;
 }
 
-export interface UserUpdateManyWithoutMemberListsInput {
-  create?: Maybe<
-    UserCreateWithoutMemberListsInput[] | UserCreateWithoutMemberListsInput
-  >;
-  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  update?: Maybe<
-    | UserUpdateWithWhereUniqueWithoutMemberListsInput[]
-    | UserUpdateWithWhereUniqueWithoutMemberListsInput
-  >;
-  upsert?: Maybe<
-    | UserUpsertWithWhereUniqueWithoutMemberListsInput[]
-    | UserUpsertWithWhereUniqueWithoutMemberListsInput
-  >;
-  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  updateMany?: Maybe<
-    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
-  >;
+export interface ListUpdateInput {
+  name?: Maybe<String>;
+  createdBy?: Maybe<UserUpdateOneRequiredWithoutListsInput>;
+  members?: Maybe<UserUpdateManyWithoutMemberListsInput>;
+  items?: Maybe<ItemUpdateManyWithoutListInput>;
 }
 
-export interface ListUpdateManyWithoutMembersInput {
-  create?: Maybe<
-    ListCreateWithoutMembersInput[] | ListCreateWithoutMembersInput
-  >;
-  delete?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
-  connect?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
-  set?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
-  disconnect?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
-  update?: Maybe<
-    | ListUpdateWithWhereUniqueWithoutMembersInput[]
-    | ListUpdateWithWhereUniqueWithoutMembersInput
-  >;
-  upsert?: Maybe<
-    | ListUpsertWithWhereUniqueWithoutMembersInput[]
-    | ListUpsertWithWhereUniqueWithoutMembersInput
-  >;
-  deleteMany?: Maybe<ListScalarWhereInput[] | ListScalarWhereInput>;
-  updateMany?: Maybe<
-    ListUpdateManyWithWhereNestedInput[] | ListUpdateManyWithWhereNestedInput
-  >;
+export interface ItemUpdateManyDataInput {
+  name?: Maybe<String>;
+  count?: Maybe<String>;
+  priority?: Maybe<Priority>;
 }
 
-export interface CategoryCreateOneInput {
-  create?: Maybe<CategoryCreateInput>;
-  connect?: Maybe<CategoryWhereUniqueInput>;
+export interface ItemUpdateManyMutationInput {
+  name?: Maybe<String>;
+  count?: Maybe<String>;
+  priority?: Maybe<Priority>;
 }
 
 export interface ListUpdateWithWhereUniqueWithoutMembersInput {
@@ -650,65 +459,50 @@ export interface ListUpdateWithWhereUniqueWithoutMembersInput {
   data: ListUpdateWithoutMembersDataInput;
 }
 
-export interface CategoryUpdateOneRequiredInput {
-  create?: Maybe<CategoryCreateInput>;
-  update?: Maybe<CategoryUpdateDataInput>;
-  upsert?: Maybe<CategoryUpsertNestedInput>;
-  connect?: Maybe<CategoryWhereUniqueInput>;
+export interface ListUpsertWithoutItemsInput {
+  update: ListUpdateWithoutItemsDataInput;
+  create: ListCreateWithoutItemsInput;
 }
 
 export interface ListUpdateWithoutMembersDataInput {
   name?: Maybe<String>;
   createdBy?: Maybe<UserUpdateOneRequiredWithoutListsInput>;
-  categories?: Maybe<CategoryUpdateManyInput>;
-  items?: Maybe<ItemUpdateManyInput>;
+  items?: Maybe<ItemUpdateManyWithoutListInput>;
 }
 
-export type ItemWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
+export interface ListUpsertWithWhereUniqueWithoutMembersInput {
+  where: ListWhereUniqueInput;
+  update: ListUpdateWithoutMembersDataInput;
+  create: ListCreateWithoutMembersInput;
+}
 
-export interface CategoryUpdateManyInput {
-  create?: Maybe<CategoryCreateInput[] | CategoryCreateInput>;
+export interface ItemUpdateManyWithoutListInput {
+  create?: Maybe<ItemCreateWithoutListInput[] | ItemCreateWithoutListInput>;
+  delete?: Maybe<ItemWhereUniqueInput[] | ItemWhereUniqueInput>;
+  connect?: Maybe<ItemWhereUniqueInput[] | ItemWhereUniqueInput>;
+  set?: Maybe<ItemWhereUniqueInput[] | ItemWhereUniqueInput>;
+  disconnect?: Maybe<ItemWhereUniqueInput[] | ItemWhereUniqueInput>;
   update?: Maybe<
-    | CategoryUpdateWithWhereUniqueNestedInput[]
-    | CategoryUpdateWithWhereUniqueNestedInput
+    | ItemUpdateWithWhereUniqueWithoutListInput[]
+    | ItemUpdateWithWhereUniqueWithoutListInput
   >;
   upsert?: Maybe<
-    | CategoryUpsertWithWhereUniqueNestedInput[]
-    | CategoryUpsertWithWhereUniqueNestedInput
+    | ItemUpsertWithWhereUniqueWithoutListInput[]
+    | ItemUpsertWithWhereUniqueWithoutListInput
   >;
-  delete?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  set?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  disconnect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  deleteMany?: Maybe<CategoryScalarWhereInput[] | CategoryScalarWhereInput>;
+  deleteMany?: Maybe<ItemScalarWhereInput[] | ItemScalarWhereInput>;
   updateMany?: Maybe<
-    | CategoryUpdateManyWithWhereNestedInput[]
-    | CategoryUpdateManyWithWhereNestedInput
+    ItemUpdateManyWithWhereNestedInput[] | ItemUpdateManyWithWhereNestedInput
   >;
 }
 
-export interface UserUpdateManyMutationInput {
-  nick?: Maybe<String>;
-  name?: Maybe<String>;
-  avatar?: Maybe<String>;
-  password?: Maybe<String>;
-}
-
-export interface CategoryUpdateWithWhereUniqueNestedInput {
-  where: CategoryWhereUniqueInput;
-  data: CategoryUpdateDataInput;
-}
-
-export type ListWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface CategoryUpsertWithWhereUniqueNestedInput {
-  where: CategoryWhereUniqueInput;
-  update: CategoryUpdateDataInput;
-  create: CategoryCreateInput;
+export interface ItemCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  count?: Maybe<String>;
+  priority?: Maybe<Priority>;
+  list: ListCreateOneWithoutItemsInput;
+  members?: Maybe<UserCreateManyInput>;
 }
 
 export interface UserWhereInput {
@@ -793,7 +587,28 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface CategoryScalarWhereInput {
+export interface ListCreateWithoutItemsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  createdBy: UserCreateOneWithoutListsInput;
+  members?: Maybe<UserCreateManyWithoutMemberListsInput>;
+}
+
+export interface ItemUpdateManyWithWhereNestedInput {
+  where: ItemScalarWhereInput;
+  data: ItemUpdateManyDataInput;
+}
+
+export interface UserCreateWithoutListsInput {
+  id?: Maybe<ID_Input>;
+  nick: String;
+  name: String;
+  avatar: String;
+  password: String;
+  memberLists?: Maybe<ListCreateManyWithoutMembersInput>;
+}
+
+export interface ItemScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -822,20 +637,66 @@ export interface CategoryScalarWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<CategoryScalarWhereInput[] | CategoryScalarWhereInput>;
-  OR?: Maybe<CategoryScalarWhereInput[] | CategoryScalarWhereInput>;
-  NOT?: Maybe<CategoryScalarWhereInput[] | CategoryScalarWhereInput>;
+  count?: Maybe<String>;
+  count_not?: Maybe<String>;
+  count_in?: Maybe<String[] | String>;
+  count_not_in?: Maybe<String[] | String>;
+  count_lt?: Maybe<String>;
+  count_lte?: Maybe<String>;
+  count_gt?: Maybe<String>;
+  count_gte?: Maybe<String>;
+  count_contains?: Maybe<String>;
+  count_not_contains?: Maybe<String>;
+  count_starts_with?: Maybe<String>;
+  count_not_starts_with?: Maybe<String>;
+  count_ends_with?: Maybe<String>;
+  count_not_ends_with?: Maybe<String>;
+  priority?: Maybe<Priority>;
+  priority_not?: Maybe<Priority>;
+  priority_in?: Maybe<Priority[] | Priority>;
+  priority_not_in?: Maybe<Priority[] | Priority>;
+  AND?: Maybe<ItemScalarWhereInput[] | ItemScalarWhereInput>;
+  OR?: Maybe<ItemScalarWhereInput[] | ItemScalarWhereInput>;
+  NOT?: Maybe<ItemScalarWhereInput[] | ItemScalarWhereInput>;
 }
 
-export interface ListUpsertWithWhereUniqueWithoutCreatedByInput {
-  where: ListWhereUniqueInput;
-  update: ListUpdateWithoutCreatedByDataInput;
-  create: ListCreateWithoutCreatedByInput;
+export interface ListCreateWithoutMembersInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  createdBy: UserCreateOneWithoutListsInput;
+  items?: Maybe<ItemCreateManyWithoutListInput>;
 }
 
-export interface CategoryUpdateManyWithWhereNestedInput {
-  where: CategoryScalarWhereInput;
-  data: CategoryUpdateManyDataInput;
+export interface UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateDataInput;
+}
+
+export interface ItemCreateWithoutListInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  count?: Maybe<String>;
+  priority?: Maybe<Priority>;
+  members?: Maybe<UserCreateManyInput>;
+}
+
+export interface UserUpdateDataInput {
+  nick?: Maybe<String>;
+  name?: Maybe<String>;
+  avatar?: Maybe<String>;
+  password?: Maybe<String>;
+  lists?: Maybe<ListUpdateManyWithoutCreatedByInput>;
+  memberLists?: Maybe<ListUpdateManyWithoutMembersInput>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  nick: String;
+  name: String;
+  avatar: String;
+  password: String;
+  lists?: Maybe<ListCreateManyWithoutCreatedByInput>;
+  memberLists?: Maybe<ListCreateManyWithoutMembersInput>;
 }
 
 export interface ListUpdateManyWithoutCreatedByInput {
@@ -860,45 +721,16 @@ export interface ListUpdateManyWithoutCreatedByInput {
   >;
 }
 
-export interface CategoryUpdateManyDataInput {
-  name?: Maybe<String>;
-}
-
-export interface CategoryUpdateInput {
-  name?: Maybe<String>;
-}
-
-export interface ItemUpdateManyInput {
-  create?: Maybe<ItemCreateInput[] | ItemCreateInput>;
-  update?: Maybe<
-    | ItemUpdateWithWhereUniqueNestedInput[]
-    | ItemUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | ItemUpsertWithWhereUniqueNestedInput[]
-    | ItemUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<ItemWhereUniqueInput[] | ItemWhereUniqueInput>;
-  connect?: Maybe<ItemWhereUniqueInput[] | ItemWhereUniqueInput>;
-  set?: Maybe<ItemWhereUniqueInput[] | ItemWhereUniqueInput>;
-  disconnect?: Maybe<ItemWhereUniqueInput[] | ItemWhereUniqueInput>;
-  deleteMany?: Maybe<ItemScalarWhereInput[] | ItemScalarWhereInput>;
-  updateMany?: Maybe<
-    ItemUpdateManyWithWhereNestedInput[] | ItemUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface ItemCreateInput {
+export interface ListCreateWithoutCreatedByInput {
   id?: Maybe<ID_Input>;
   name: String;
-  description?: Maybe<String>;
-  priority?: Maybe<Priority>;
-  category: CategoryCreateOneInput;
+  members?: Maybe<UserCreateManyWithoutMemberListsInput>;
+  items?: Maybe<ItemCreateManyWithoutListInput>;
 }
 
-export interface ItemUpdateWithWhereUniqueNestedInput {
-  where: ItemWhereUniqueInput;
-  data: ItemUpdateDataInput;
+export interface ListUpdateWithWhereUniqueWithoutCreatedByInput {
+  where: ListWhereUniqueInput;
+  data: ListUpdateWithoutCreatedByDataInput;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -912,27 +744,85 @@ export interface UserSubscriptionWhereInput {
   NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
-export interface ItemUpdateDataInput {
+export interface ListUpdateWithoutCreatedByDataInput {
   name?: Maybe<String>;
-  description?: Maybe<String>;
-  priority?: Maybe<Priority>;
-  category?: Maybe<CategoryUpdateOneRequiredInput>;
+  members?: Maybe<UserUpdateManyWithoutMemberListsInput>;
+  items?: Maybe<ItemUpdateManyWithoutListInput>;
 }
 
-export interface UserCreateInput {
+export interface UserUpdateInput {
+  nick?: Maybe<String>;
+  name?: Maybe<String>;
+  avatar?: Maybe<String>;
+  password?: Maybe<String>;
+  lists?: Maybe<ListUpdateManyWithoutCreatedByInput>;
+  memberLists?: Maybe<ListUpdateManyWithoutMembersInput>;
+}
+
+export interface UserUpdateManyWithoutMemberListsInput {
+  create?: Maybe<
+    UserCreateWithoutMemberListsInput[] | UserCreateWithoutMemberListsInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutMemberListsInput[]
+    | UserUpdateWithWhereUniqueWithoutMemberListsInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutMemberListsInput[]
+    | UserUpsertWithWhereUniqueWithoutMemberListsInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ListCreateInput {
   id?: Maybe<ID_Input>;
-  nick: String;
   name: String;
-  avatar: String;
-  password: String;
-  lists?: Maybe<ListCreateManyWithoutCreatedByInput>;
-  memberLists?: Maybe<ListCreateManyWithoutMembersInput>;
+  createdBy: UserCreateOneWithoutListsInput;
+  members?: Maybe<UserCreateManyWithoutMemberListsInput>;
+  items?: Maybe<ItemCreateManyWithoutListInput>;
 }
 
-export interface ItemUpsertWithWhereUniqueNestedInput {
-  where: ItemWhereUniqueInput;
-  update: ItemUpdateDataInput;
-  create: ItemCreateInput;
+export interface UserUpdateWithWhereUniqueWithoutMemberListsInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutMemberListsDataInput;
+}
+
+export interface UserUpsertWithoutListsInput {
+  update: UserUpdateWithoutListsDataInput;
+  create: UserCreateWithoutListsInput;
+}
+
+export interface UserUpdateWithoutMemberListsDataInput {
+  nick?: Maybe<String>;
+  name?: Maybe<String>;
+  avatar?: Maybe<String>;
+  password?: Maybe<String>;
+  lists?: Maybe<ListUpdateManyWithoutCreatedByInput>;
+}
+
+export interface ListCreateOneWithoutItemsInput {
+  create?: Maybe<ListCreateWithoutItemsInput>;
+  connect?: Maybe<ListWhereUniqueInput>;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutMemberListsInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutMemberListsDataInput;
+  create: UserCreateWithoutMemberListsInput;
+}
+
+export interface ListCreateManyWithoutMembersInput {
+  create?: Maybe<
+    ListCreateWithoutMembersInput[] | ListCreateWithoutMembersInput
+  >;
+  connect?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
 }
 
 export interface UserScalarWhereInput {
@@ -1011,63 +901,58 @@ export interface UserScalarWhereInput {
   NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
 }
 
-export interface ItemScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  priority?: Maybe<Priority>;
-  priority_not?: Maybe<Priority>;
-  priority_in?: Maybe<Priority[] | Priority>;
-  priority_not_in?: Maybe<Priority[] | Priority>;
-  AND?: Maybe<ItemScalarWhereInput[] | ItemScalarWhereInput>;
-  OR?: Maybe<ItemScalarWhereInput[] | ItemScalarWhereInput>;
-  NOT?: Maybe<ItemScalarWhereInput[] | ItemScalarWhereInput>;
+export interface UserCreateManyInput {
+  create?: Maybe<UserCreateInput[] | UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
 }
 
-export interface ItemUpdateInput {
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
+}
+
+export interface UserCreateManyWithoutMemberListsInput {
+  create?: Maybe<
+    UserCreateWithoutMemberListsInput[] | UserCreateWithoutMemberListsInput
+  >;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface UserUpdateManyDataInput {
+  nick?: Maybe<String>;
   name?: Maybe<String>;
-  description?: Maybe<String>;
-  priority?: Maybe<Priority>;
-  category?: Maybe<CategoryUpdateOneRequiredInput>;
+  avatar?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export type ListWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface ListUpsertWithWhereUniqueWithoutCreatedByInput {
+  where: ListWhereUniqueInput;
+  update: ListUpdateWithoutCreatedByDataInput;
+  create: ListCreateWithoutCreatedByInput;
+}
+
+export interface ItemCreateManyWithoutListInput {
+  create?: Maybe<ItemCreateWithoutListInput[] | ItemCreateWithoutListInput>;
+  connect?: Maybe<ItemWhereUniqueInput[] | ItemWhereUniqueInput>;
+}
+
+export interface UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface ListUpdateManyDataInput {
+  name?: Maybe<String>;
+}
+
+export interface ListUpdateManyWithWhereNestedInput {
+  where: ListScalarWhereInput;
+  data: ListUpdateManyDataInput;
 }
 
 export interface ListScalarWhereInput {
@@ -1104,41 +989,16 @@ export interface ListScalarWhereInput {
   NOT?: Maybe<ListScalarWhereInput[] | ListScalarWhereInput>;
 }
 
-export interface ListUpsertWithWhereUniqueWithoutMembersInput {
-  where: ListWhereUniqueInput;
-  update: ListUpdateWithoutMembersDataInput;
-  create: ListCreateWithoutMembersInput;
-}
-
-export interface ItemUpdateManyDataInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  priority?: Maybe<Priority>;
-}
-
-export interface ItemUpdateManyWithWhereNestedInput {
-  where: ItemScalarWhereInput;
-  data: ItemUpdateManyDataInput;
-}
-
-export interface CategorySubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CategoryWhereInput>;
-  AND?: Maybe<
-    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
+export interface ListCreateManyWithoutCreatedByInput {
+  create?: Maybe<
+    ListCreateWithoutCreatedByInput[] | ListCreateWithoutCreatedByInput
   >;
-  OR?: Maybe<CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput>;
-  NOT?: Maybe<
-    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
-  >;
+  connect?: Maybe<ListWhereUniqueInput[] | ListWhereUniqueInput>;
 }
 
-export interface UserUpdateWithWhereUniqueWithoutMemberListsInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutMemberListsDataInput;
+export interface UserCreateOneWithoutListsInput {
+  create?: Maybe<UserCreateWithoutListsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export type UserWhereUniqueInput = AtLeastOne<{
@@ -1146,9 +1006,15 @@ export type UserWhereUniqueInput = AtLeastOne<{
   nick?: Maybe<String>;
 }>;
 
-export interface UserUpdateManyWithWhereNestedInput {
-  where: UserScalarWhereInput;
-  data: UserUpdateManyDataInput;
+export interface ItemSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ItemWhereInput>;
+  AND?: Maybe<ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput>;
+  OR?: Maybe<ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput>;
+  NOT?: Maybe<ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput>;
 }
 
 export interface NodeNode {
@@ -1183,227 +1049,102 @@ export interface UserPreviousValuesSubscription
   password: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ItemConnection {
-  pageInfo: PageInfo;
-  edges: ItemEdge[];
+export interface ItemEdge {
+  node: Item;
+  cursor: String;
 }
 
-export interface ItemConnectionPromise
-  extends Promise<ItemConnection>,
+export interface ItemEdgePromise extends Promise<ItemEdge>, Fragmentable {
+  node: <T = ItemPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ItemEdgeSubscription
+  extends Promise<AsyncIterator<ItemEdge>>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ItemEdge>>() => T;
-  aggregate: <T = AggregateItemPromise>() => T;
+  node: <T = ItemSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ItemConnectionSubscription
-  extends Promise<AsyncIterator<ItemConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ItemEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateItemSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface ListPreviousValues {
+export interface List {
   id: ID_Output;
   name: String;
 }
 
-export interface ListPreviousValuesPromise
-  extends Promise<ListPreviousValues>,
-    Fragmentable {
+export interface ListPromise extends Promise<List>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  createdBy: <T = UserPromise>() => T;
+  members: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  items: <T = FragmentableArray<Item>>(args?: {
+    where?: ItemWhereInput;
+    orderBy?: ItemOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface ListPreviousValuesSubscription
-  extends Promise<AsyncIterator<ListPreviousValues>>,
+export interface ListSubscription
+  extends Promise<AsyncIterator<List>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  createdBy: <T = UserSubscription>() => T;
+  members: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  items: <T = Promise<AsyncIterator<ItemSubscription>>>(args?: {
+    where?: ItemWhereInput;
+    orderBy?: ItemOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
+export interface ListNullablePromise
+  extends Promise<List | null>,
     Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CategoryConnection {
-  pageInfo: PageInfo;
-  edges: CategoryEdge[];
-}
-
-export interface CategoryConnectionPromise
-  extends Promise<CategoryConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CategoryEdge>>() => T;
-  aggregate: <T = AggregateCategoryPromise>() => T;
-}
-
-export interface CategoryConnectionSubscription
-  extends Promise<AsyncIterator<CategoryConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CategoryEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCategorySubscription>() => T;
-}
-
-export interface AggregateList {
-  count: Int;
-}
-
-export interface AggregateListPromise
-  extends Promise<AggregateList>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateListSubscription
-  extends Promise<AsyncIterator<AggregateList>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CategoryEdge {
-  node: Category;
-  cursor: String;
-}
-
-export interface CategoryEdgePromise
-  extends Promise<CategoryEdge>,
-    Fragmentable {
-  node: <T = CategoryPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface CategoryEdgeSubscription
-  extends Promise<AsyncIterator<CategoryEdge>>,
-    Fragmentable {
-  node: <T = CategorySubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ListConnection {
-  pageInfo: PageInfo;
-  edges: ListEdge[];
-}
-
-export interface ListConnectionPromise
-  extends Promise<ListConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ListEdge>>() => T;
-  aggregate: <T = AggregateListPromise>() => T;
-}
-
-export interface ListConnectionSubscription
-  extends Promise<AsyncIterator<ListConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ListEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateListSubscription>() => T;
-}
-
-export interface CategorySubscriptionPayload {
-  mutation: MutationType;
-  node: Category;
-  updatedFields: String[];
-  previousValues: CategoryPreviousValues;
-}
-
-export interface CategorySubscriptionPayloadPromise
-  extends Promise<CategorySubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = CategoryPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CategoryPreviousValuesPromise>() => T;
-}
-
-export interface CategorySubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CategorySubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CategorySubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CategoryPreviousValuesSubscription>() => T;
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  createdBy: <T = UserPromise>() => T;
+  members: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  items: <T = FragmentableArray<Item>>(args?: {
+    where?: ItemWhereInput;
+    orderBy?: ItemOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface User {
@@ -1496,74 +1237,23 @@ export interface UserNullablePromise
   }) => T;
 }
 
-export interface CategoryPreviousValues {
+export interface ListPreviousValues {
   id: ID_Output;
   name: String;
 }
 
-export interface CategoryPreviousValuesPromise
-  extends Promise<CategoryPreviousValues>,
+export interface ListPreviousValuesPromise
+  extends Promise<ListPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
 }
 
-export interface CategoryPreviousValuesSubscription
-  extends Promise<AsyncIterator<CategoryPreviousValues>>,
+export interface ListPreviousValuesSubscription
+  extends Promise<AsyncIterator<ListPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateItem {
-  count: Int;
-}
-
-export interface AggregateItemPromise
-  extends Promise<AggregateItem>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateItemSubscription
-  extends Promise<AsyncIterator<AggregateItem>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Item {
-  id: ID_Output;
-  name: String;
-  description?: String;
-  priority: Priority;
-}
-
-export interface ItemPromise extends Promise<Item>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  priority: () => Promise<Priority>;
-  category: <T = CategoryPromise>() => T;
-}
-
-export interface ItemSubscription
-  extends Promise<AsyncIterator<Item>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  priority: () => Promise<AsyncIterator<Priority>>;
-  category: <T = CategorySubscription>() => T;
-}
-
-export interface ItemNullablePromise
-  extends Promise<Item | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  priority: () => Promise<Priority>;
-  category: <T = CategoryPromise>() => T;
 }
 
 export interface AggregateUser {
@@ -1580,6 +1270,145 @@ export interface AggregateUserSubscription
   extends Promise<AsyncIterator<AggregateUser>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface Item {
+  id: ID_Output;
+  name: String;
+  count?: String;
+  priority: Priority;
+}
+
+export interface ItemPromise extends Promise<Item>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  count: () => Promise<String>;
+  priority: () => Promise<Priority>;
+  list: <T = ListPromise>() => T;
+  members: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface ItemSubscription
+  extends Promise<AsyncIterator<Item>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<AsyncIterator<String>>;
+  priority: () => Promise<AsyncIterator<Priority>>;
+  list: <T = ListSubscription>() => T;
+  members: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface ItemNullablePromise
+  extends Promise<Item | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  count: () => Promise<String>;
+  priority: () => Promise<Priority>;
+  list: <T = ListPromise>() => T;
+  members: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface ListEdge {
+  node: List;
+  cursor: String;
+}
+
+export interface ListEdgePromise extends Promise<ListEdge>, Fragmentable {
+  node: <T = ListPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ListEdgeSubscription
+  extends Promise<AsyncIterator<ListEdge>>,
+    Fragmentable {
+  node: <T = ListSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ListSubscriptionPayload {
@@ -1607,26 +1436,31 @@ export interface ListSubscriptionPayloadSubscription
   previousValues: <T = ListPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateCategory {
-  count: Int;
+export interface ItemConnection {
+  pageInfo: PageInfo;
+  edges: ItemEdge[];
 }
 
-export interface AggregateCategoryPromise
-  extends Promise<AggregateCategory>,
+export interface ItemConnectionPromise
+  extends Promise<ItemConnection>,
     Fragmentable {
-  count: () => Promise<Int>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ItemEdge>>() => T;
+  aggregate: <T = AggregateItemPromise>() => T;
 }
 
-export interface AggregateCategorySubscription
-  extends Promise<AsyncIterator<AggregateCategory>>,
+export interface ItemConnectionSubscription
+  extends Promise<AsyncIterator<ItemConnection>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ItemEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateItemSubscription>() => T;
 }
 
 export interface ItemPreviousValues {
   id: ID_Output;
   name: String;
-  description?: String;
+  count?: String;
   priority: Priority;
 }
 
@@ -1635,7 +1469,7 @@ export interface ItemPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  description: () => Promise<String>;
+  count: () => Promise<String>;
   priority: () => Promise<Priority>;
 }
 
@@ -1644,7 +1478,7 @@ export interface ItemPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<AsyncIterator<String>>;
   priority: () => Promise<AsyncIterator<Priority>>;
 }
 
@@ -1673,192 +1507,105 @@ export interface ItemSubscriptionPayloadSubscription
   previousValues: <T = ItemPreviousValuesSubscription>() => T;
 }
 
-export interface UserConnection {
+export interface ListConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: ListEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface ListConnectionPromise
+  extends Promise<ListConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<ListEdge>>() => T;
+  aggregate: <T = AggregateListPromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface ListConnectionSubscription
+  extends Promise<AsyncIterator<ListConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ListEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateListSubscription>() => T;
 }
 
-export interface ItemEdge {
-  node: Item;
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface AggregateList {
+  count: Int;
+}
+
+export interface AggregateListPromise
+  extends Promise<AggregateList>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateListSubscription
+  extends Promise<AsyncIterator<AggregateList>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserEdge {
+  node: User;
   cursor: String;
 }
 
-export interface ItemEdgePromise extends Promise<ItemEdge>, Fragmentable {
-  node: <T = ItemPromise>() => T;
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface ItemEdgeSubscription
-  extends Promise<AsyncIterator<ItemEdge>>,
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
     Fragmentable {
-  node: <T = ItemSubscription>() => T;
+  node: <T = UserSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface List {
-  id: ID_Output;
-  name: String;
+export interface AggregateItem {
+  count: Int;
 }
 
-export interface ListPromise extends Promise<List>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  createdBy: <T = UserPromise>() => T;
-  categories: <T = FragmentableArray<Category>>(args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  members: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  items: <T = FragmentableArray<Item>>(args?: {
-    where?: ItemWhereInput;
-    orderBy?: ItemOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface ListSubscription
-  extends Promise<AsyncIterator<List>>,
+export interface AggregateItemPromise
+  extends Promise<AggregateItem>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  createdBy: <T = UserSubscription>() => T;
-  categories: <T = Promise<AsyncIterator<CategorySubscription>>>(args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  members: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  items: <T = Promise<AsyncIterator<ItemSubscription>>>(args?: {
-    where?: ItemWhereInput;
-    orderBy?: ItemOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  count: () => Promise<Int>;
 }
 
-export interface ListNullablePromise
-  extends Promise<List | null>,
+export interface AggregateItemSubscription
+  extends Promise<AsyncIterator<AggregateItem>>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  createdBy: <T = UserPromise>() => T;
-  categories: <T = FragmentableArray<Category>>(args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  members: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  items: <T = FragmentableArray<Item>>(args?: {
-    where?: ItemWhereInput;
-    orderBy?: ItemOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface Category {
-  id: ID_Output;
-  name: String;
-}
-
-export interface CategoryPromise extends Promise<Category>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface CategorySubscription
-  extends Promise<AsyncIterator<Category>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CategoryNullablePromise
-  extends Promise<Category | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface ListEdge {
-  node: List;
-  cursor: String;
-}
-
-export interface ListEdgePromise extends Promise<ListEdge>, Fragmentable {
-  node: <T = ListPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ListEdgeSubscription
-  extends Promise<AsyncIterator<ListEdge>>,
-    Fragmentable {
-  node: <T = ListSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
@@ -1866,17 +1613,12 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 export type Int = number;
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-export type Long = string;
-
-/*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
 export type ID_Input = string | number;
 export type ID_Output = string;
+
+export type Long = string;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -1894,10 +1636,6 @@ export const models: Model[] = [
   },
   {
     name: "List",
-    embedded: false
-  },
-  {
-    name: "Category",
     embedded: false
   },
   {

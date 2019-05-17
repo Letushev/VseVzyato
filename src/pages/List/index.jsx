@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { query } from 'api';
 import { Loader } from 'components/Loader';
-import { MemberIcon, DeleteIcon } from 'assets/icons';
+import { MemberIcon, DeleteIcon, AddIcon, BoxIcon } from 'assets/icons';
 import { Modal } from 'components/Modal';
 import { Button } from 'components/Button';
+import { ItemsTable } from './ItemsTable';
 import styles from './styles.module.scss';
 
 const getUser = `
@@ -24,6 +25,14 @@ const listQuery = `
       }
       members {
         id
+      }
+      items {
+        id
+        name
+        count
+        members {
+          name
+        }
       }
     }
   }
@@ -55,6 +64,7 @@ function ListPage({ match, history }) {
         query: getUser,
       }),
     ]).then(([listResp, userResp]) => {
+      console.log(listResp);
       setList(listResp.data.getList);
       setUserId(userResp.data.user.id);
       setIsLoading(false);
@@ -115,6 +125,27 @@ function ListPage({ match, history }) {
             </Button>
           </Modal>
         )
+      }
+      <Link
+        className={styles.addButton}
+        title="Додати елемент"
+        to={`${match.url}/new-element`}
+      >
+        <AddIcon />
+      </Link>
+      {
+        !list.items.length
+          ? (
+            <div className={styles.noItems}>
+              <BoxIcon className={styles.noItemsIcon} />
+              <p>Список наразі порожній. <br /> Додайте нові елементи.</p>
+            </div>
+          )
+          : (
+            <ItemsTable
+              items={list.items}
+            />
+          )
       }
     </div>
   );
