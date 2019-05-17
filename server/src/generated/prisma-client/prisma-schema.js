@@ -3,7 +3,19 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregateCategory {
+  count: Int!
+}
+
+type AggregateItem {
+  count: Int!
+}
+
+type AggregateList {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -11,9 +23,696 @@ type BatchPayload {
   count: Long!
 }
 
+type Category {
+  id: ID!
+  name: String!
+}
+
+type CategoryConnection {
+  pageInfo: PageInfo!
+  edges: [CategoryEdge]!
+  aggregate: AggregateCategory!
+}
+
+input CategoryCreateInput {
+  id: ID
+  name: String!
+}
+
+input CategoryCreateManyInput {
+  create: [CategoryCreateInput!]
+  connect: [CategoryWhereUniqueInput!]
+}
+
+input CategoryCreateOneInput {
+  create: CategoryCreateInput
+  connect: CategoryWhereUniqueInput
+}
+
+type CategoryEdge {
+  node: Category!
+  cursor: String!
+}
+
+enum CategoryOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type CategoryPreviousValues {
+  id: ID!
+  name: String!
+}
+
+input CategoryScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [CategoryScalarWhereInput!]
+  OR: [CategoryScalarWhereInput!]
+  NOT: [CategoryScalarWhereInput!]
+}
+
+type CategorySubscriptionPayload {
+  mutation: MutationType!
+  node: Category
+  updatedFields: [String!]
+  previousValues: CategoryPreviousValues
+}
+
+input CategorySubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CategoryWhereInput
+  AND: [CategorySubscriptionWhereInput!]
+  OR: [CategorySubscriptionWhereInput!]
+  NOT: [CategorySubscriptionWhereInput!]
+}
+
+input CategoryUpdateDataInput {
+  name: String
+}
+
+input CategoryUpdateInput {
+  name: String
+}
+
+input CategoryUpdateManyDataInput {
+  name: String
+}
+
+input CategoryUpdateManyInput {
+  create: [CategoryCreateInput!]
+  update: [CategoryUpdateWithWhereUniqueNestedInput!]
+  upsert: [CategoryUpsertWithWhereUniqueNestedInput!]
+  delete: [CategoryWhereUniqueInput!]
+  connect: [CategoryWhereUniqueInput!]
+  set: [CategoryWhereUniqueInput!]
+  disconnect: [CategoryWhereUniqueInput!]
+  deleteMany: [CategoryScalarWhereInput!]
+  updateMany: [CategoryUpdateManyWithWhereNestedInput!]
+}
+
+input CategoryUpdateManyMutationInput {
+  name: String
+}
+
+input CategoryUpdateManyWithWhereNestedInput {
+  where: CategoryScalarWhereInput!
+  data: CategoryUpdateManyDataInput!
+}
+
+input CategoryUpdateOneRequiredInput {
+  create: CategoryCreateInput
+  update: CategoryUpdateDataInput
+  upsert: CategoryUpsertNestedInput
+  connect: CategoryWhereUniqueInput
+}
+
+input CategoryUpdateWithWhereUniqueNestedInput {
+  where: CategoryWhereUniqueInput!
+  data: CategoryUpdateDataInput!
+}
+
+input CategoryUpsertNestedInput {
+  update: CategoryUpdateDataInput!
+  create: CategoryCreateInput!
+}
+
+input CategoryUpsertWithWhereUniqueNestedInput {
+  where: CategoryWhereUniqueInput!
+  update: CategoryUpdateDataInput!
+  create: CategoryCreateInput!
+}
+
+input CategoryWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [CategoryWhereInput!]
+  OR: [CategoryWhereInput!]
+  NOT: [CategoryWhereInput!]
+}
+
+input CategoryWhereUniqueInput {
+  id: ID
+  name: String
+}
+
+type Item {
+  id: ID!
+  name: String!
+  description: String
+  priority: Priority!
+  category: Category!
+}
+
+type ItemConnection {
+  pageInfo: PageInfo!
+  edges: [ItemEdge]!
+  aggregate: AggregateItem!
+}
+
+input ItemCreateInput {
+  id: ID
+  name: String!
+  description: String
+  priority: Priority
+  category: CategoryCreateOneInput!
+}
+
+input ItemCreateManyInput {
+  create: [ItemCreateInput!]
+  connect: [ItemWhereUniqueInput!]
+}
+
+type ItemEdge {
+  node: Item!
+  cursor: String!
+}
+
+enum ItemOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  priority_ASC
+  priority_DESC
+}
+
+type ItemPreviousValues {
+  id: ID!
+  name: String!
+  description: String
+  priority: Priority!
+}
+
+input ItemScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  priority: Priority
+  priority_not: Priority
+  priority_in: [Priority!]
+  priority_not_in: [Priority!]
+  AND: [ItemScalarWhereInput!]
+  OR: [ItemScalarWhereInput!]
+  NOT: [ItemScalarWhereInput!]
+}
+
+type ItemSubscriptionPayload {
+  mutation: MutationType!
+  node: Item
+  updatedFields: [String!]
+  previousValues: ItemPreviousValues
+}
+
+input ItemSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ItemWhereInput
+  AND: [ItemSubscriptionWhereInput!]
+  OR: [ItemSubscriptionWhereInput!]
+  NOT: [ItemSubscriptionWhereInput!]
+}
+
+input ItemUpdateDataInput {
+  name: String
+  description: String
+  priority: Priority
+  category: CategoryUpdateOneRequiredInput
+}
+
+input ItemUpdateInput {
+  name: String
+  description: String
+  priority: Priority
+  category: CategoryUpdateOneRequiredInput
+}
+
+input ItemUpdateManyDataInput {
+  name: String
+  description: String
+  priority: Priority
+}
+
+input ItemUpdateManyInput {
+  create: [ItemCreateInput!]
+  update: [ItemUpdateWithWhereUniqueNestedInput!]
+  upsert: [ItemUpsertWithWhereUniqueNestedInput!]
+  delete: [ItemWhereUniqueInput!]
+  connect: [ItemWhereUniqueInput!]
+  set: [ItemWhereUniqueInput!]
+  disconnect: [ItemWhereUniqueInput!]
+  deleteMany: [ItemScalarWhereInput!]
+  updateMany: [ItemUpdateManyWithWhereNestedInput!]
+}
+
+input ItemUpdateManyMutationInput {
+  name: String
+  description: String
+  priority: Priority
+}
+
+input ItemUpdateManyWithWhereNestedInput {
+  where: ItemScalarWhereInput!
+  data: ItemUpdateManyDataInput!
+}
+
+input ItemUpdateWithWhereUniqueNestedInput {
+  where: ItemWhereUniqueInput!
+  data: ItemUpdateDataInput!
+}
+
+input ItemUpsertWithWhereUniqueNestedInput {
+  where: ItemWhereUniqueInput!
+  update: ItemUpdateDataInput!
+  create: ItemCreateInput!
+}
+
+input ItemWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  priority: Priority
+  priority_not: Priority
+  priority_in: [Priority!]
+  priority_not_in: [Priority!]
+  category: CategoryWhereInput
+  AND: [ItemWhereInput!]
+  OR: [ItemWhereInput!]
+  NOT: [ItemWhereInput!]
+}
+
+input ItemWhereUniqueInput {
+  id: ID
+}
+
+type List {
+  id: ID!
+  name: String!
+  createdBy: User!
+  categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]
+  members(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
+}
+
+type ListConnection {
+  pageInfo: PageInfo!
+  edges: [ListEdge]!
+  aggregate: AggregateList!
+}
+
+input ListCreateInput {
+  id: ID
+  name: String!
+  createdBy: UserCreateOneWithoutListsInput!
+  categories: CategoryCreateManyInput
+  members: UserCreateManyWithoutMemberListsInput
+  items: ItemCreateManyInput
+}
+
+input ListCreateManyWithoutCreatedByInput {
+  create: [ListCreateWithoutCreatedByInput!]
+  connect: [ListWhereUniqueInput!]
+}
+
+input ListCreateManyWithoutMembersInput {
+  create: [ListCreateWithoutMembersInput!]
+  connect: [ListWhereUniqueInput!]
+}
+
+input ListCreateWithoutCreatedByInput {
+  id: ID
+  name: String!
+  categories: CategoryCreateManyInput
+  members: UserCreateManyWithoutMemberListsInput
+  items: ItemCreateManyInput
+}
+
+input ListCreateWithoutMembersInput {
+  id: ID
+  name: String!
+  createdBy: UserCreateOneWithoutListsInput!
+  categories: CategoryCreateManyInput
+  items: ItemCreateManyInput
+}
+
+type ListEdge {
+  node: List!
+  cursor: String!
+}
+
+enum ListOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type ListPreviousValues {
+  id: ID!
+  name: String!
+}
+
+input ListScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [ListScalarWhereInput!]
+  OR: [ListScalarWhereInput!]
+  NOT: [ListScalarWhereInput!]
+}
+
+type ListSubscriptionPayload {
+  mutation: MutationType!
+  node: List
+  updatedFields: [String!]
+  previousValues: ListPreviousValues
+}
+
+input ListSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ListWhereInput
+  AND: [ListSubscriptionWhereInput!]
+  OR: [ListSubscriptionWhereInput!]
+  NOT: [ListSubscriptionWhereInput!]
+}
+
+input ListUpdateInput {
+  name: String
+  createdBy: UserUpdateOneRequiredWithoutListsInput
+  categories: CategoryUpdateManyInput
+  members: UserUpdateManyWithoutMemberListsInput
+  items: ItemUpdateManyInput
+}
+
+input ListUpdateManyDataInput {
+  name: String
+}
+
+input ListUpdateManyMutationInput {
+  name: String
+}
+
+input ListUpdateManyWithoutCreatedByInput {
+  create: [ListCreateWithoutCreatedByInput!]
+  delete: [ListWhereUniqueInput!]
+  connect: [ListWhereUniqueInput!]
+  set: [ListWhereUniqueInput!]
+  disconnect: [ListWhereUniqueInput!]
+  update: [ListUpdateWithWhereUniqueWithoutCreatedByInput!]
+  upsert: [ListUpsertWithWhereUniqueWithoutCreatedByInput!]
+  deleteMany: [ListScalarWhereInput!]
+  updateMany: [ListUpdateManyWithWhereNestedInput!]
+}
+
+input ListUpdateManyWithoutMembersInput {
+  create: [ListCreateWithoutMembersInput!]
+  delete: [ListWhereUniqueInput!]
+  connect: [ListWhereUniqueInput!]
+  set: [ListWhereUniqueInput!]
+  disconnect: [ListWhereUniqueInput!]
+  update: [ListUpdateWithWhereUniqueWithoutMembersInput!]
+  upsert: [ListUpsertWithWhereUniqueWithoutMembersInput!]
+  deleteMany: [ListScalarWhereInput!]
+  updateMany: [ListUpdateManyWithWhereNestedInput!]
+}
+
+input ListUpdateManyWithWhereNestedInput {
+  where: ListScalarWhereInput!
+  data: ListUpdateManyDataInput!
+}
+
+input ListUpdateWithoutCreatedByDataInput {
+  name: String
+  categories: CategoryUpdateManyInput
+  members: UserUpdateManyWithoutMemberListsInput
+  items: ItemUpdateManyInput
+}
+
+input ListUpdateWithoutMembersDataInput {
+  name: String
+  createdBy: UserUpdateOneRequiredWithoutListsInput
+  categories: CategoryUpdateManyInput
+  items: ItemUpdateManyInput
+}
+
+input ListUpdateWithWhereUniqueWithoutCreatedByInput {
+  where: ListWhereUniqueInput!
+  data: ListUpdateWithoutCreatedByDataInput!
+}
+
+input ListUpdateWithWhereUniqueWithoutMembersInput {
+  where: ListWhereUniqueInput!
+  data: ListUpdateWithoutMembersDataInput!
+}
+
+input ListUpsertWithWhereUniqueWithoutCreatedByInput {
+  where: ListWhereUniqueInput!
+  update: ListUpdateWithoutCreatedByDataInput!
+  create: ListCreateWithoutCreatedByInput!
+}
+
+input ListUpsertWithWhereUniqueWithoutMembersInput {
+  where: ListWhereUniqueInput!
+  update: ListUpdateWithoutMembersDataInput!
+  create: ListCreateWithoutMembersInput!
+}
+
+input ListWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  createdBy: UserWhereInput
+  categories_every: CategoryWhereInput
+  categories_some: CategoryWhereInput
+  categories_none: CategoryWhereInput
+  members_every: UserWhereInput
+  members_some: UserWhereInput
+  members_none: UserWhereInput
+  items_every: ItemWhereInput
+  items_some: ItemWhereInput
+  items_none: ItemWhereInput
+  AND: [ListWhereInput!]
+  OR: [ListWhereInput!]
+  NOT: [ListWhereInput!]
+}
+
+input ListWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createCategory(data: CategoryCreateInput!): Category!
+  updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
+  updateManyCategories(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
+  upsertCategory(where: CategoryWhereUniqueInput!, create: CategoryCreateInput!, update: CategoryUpdateInput!): Category!
+  deleteCategory(where: CategoryWhereUniqueInput!): Category
+  deleteManyCategories(where: CategoryWhereInput): BatchPayload!
+  createItem(data: ItemCreateInput!): Item!
+  updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
+  updateManyItems(data: ItemUpdateManyMutationInput!, where: ItemWhereInput): BatchPayload!
+  upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
+  deleteItem(where: ItemWhereUniqueInput!): Item
+  deleteManyItems(where: ItemWhereInput): BatchPayload!
+  createList(data: ListCreateInput!): List!
+  updateList(data: ListUpdateInput!, where: ListWhereUniqueInput!): List
+  updateManyLists(data: ListUpdateManyMutationInput!, where: ListWhereInput): BatchPayload!
+  upsertList(where: ListWhereUniqueInput!, create: ListCreateInput!, update: ListUpdateInput!): List!
+  deleteList(where: ListWhereUniqueInput!): List
+  deleteManyLists(where: ListWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -39,7 +738,22 @@ type PageInfo {
   endCursor: String
 }
 
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
 type Query {
+  category(where: CategoryWhereUniqueInput!): Category
+  categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category]!
+  categoriesConnection(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CategoryConnection!
+  item(where: ItemWhereUniqueInput!): Item
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
+  itemsConnection(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ItemConnection!
+  list(where: ListWhereUniqueInput!): List
+  lists(where: ListWhereInput, orderBy: ListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [List]!
+  listsConnection(where: ListWhereInput, orderBy: ListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ListConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -47,6 +761,9 @@ type Query {
 }
 
 type Subscription {
+  category(where: CategorySubscriptionWhereInput): CategorySubscriptionPayload
+  item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
+  list(where: ListSubscriptionWhereInput): ListSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -56,6 +773,8 @@ type User {
   name: String!
   avatar: String!
   password: String!
+  lists(where: ListWhereInput, orderBy: ListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [List!]
+  memberLists(where: ListWhereInput, orderBy: ListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [List!]
 }
 
 type UserConnection {
@@ -70,6 +789,36 @@ input UserCreateInput {
   name: String!
   avatar: String!
   password: String!
+  lists: ListCreateManyWithoutCreatedByInput
+  memberLists: ListCreateManyWithoutMembersInput
+}
+
+input UserCreateManyWithoutMemberListsInput {
+  create: [UserCreateWithoutMemberListsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneWithoutListsInput {
+  create: UserCreateWithoutListsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutListsInput {
+  id: ID
+  nick: String!
+  name: String!
+  avatar: String!
+  password: String!
+  memberLists: ListCreateManyWithoutMembersInput
+}
+
+input UserCreateWithoutMemberListsInput {
+  id: ID
+  nick: String!
+  name: String!
+  avatar: String!
+  password: String!
+  lists: ListCreateManyWithoutCreatedByInput
 }
 
 type UserEdge {
@@ -98,6 +847,82 @@ type UserPreviousValues {
   password: String!
 }
 
+input UserScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  nick: String
+  nick_not: String
+  nick_in: [String!]
+  nick_not_in: [String!]
+  nick_lt: String
+  nick_lte: String
+  nick_gt: String
+  nick_gte: String
+  nick_contains: String
+  nick_not_contains: String
+  nick_starts_with: String
+  nick_not_starts_with: String
+  nick_ends_with: String
+  nick_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  avatar: String
+  avatar_not: String
+  avatar_in: [String!]
+  avatar_not_in: [String!]
+  avatar_lt: String
+  avatar_lte: String
+  avatar_gt: String
+  avatar_gte: String
+  avatar_contains: String
+  avatar_not_contains: String
+  avatar_starts_with: String
+  avatar_not_starts_with: String
+  avatar_ends_with: String
+  avatar_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+}
+
 type UserSubscriptionPayload {
   mutation: MutationType!
   node: User
@@ -121,6 +946,15 @@ input UserUpdateInput {
   name: String
   avatar: String
   password: String
+  lists: ListUpdateManyWithoutCreatedByInput
+  memberLists: ListUpdateManyWithoutMembersInput
+}
+
+input UserUpdateManyDataInput {
+  nick: String
+  name: String
+  avatar: String
+  password: String
 }
 
 input UserUpdateManyMutationInput {
@@ -128,6 +962,62 @@ input UserUpdateManyMutationInput {
   name: String
   avatar: String
   password: String
+}
+
+input UserUpdateManyWithoutMemberListsInput {
+  create: [UserCreateWithoutMemberListsInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutMemberListsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutMemberListsInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput!
+  data: UserUpdateManyDataInput!
+}
+
+input UserUpdateOneRequiredWithoutListsInput {
+  create: UserCreateWithoutListsInput
+  update: UserUpdateWithoutListsDataInput
+  upsert: UserUpsertWithoutListsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutListsDataInput {
+  nick: String
+  name: String
+  avatar: String
+  password: String
+  memberLists: ListUpdateManyWithoutMembersInput
+}
+
+input UserUpdateWithoutMemberListsDataInput {
+  nick: String
+  name: String
+  avatar: String
+  password: String
+  lists: ListUpdateManyWithoutCreatedByInput
+}
+
+input UserUpdateWithWhereUniqueWithoutMemberListsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutMemberListsDataInput!
+}
+
+input UserUpsertWithoutListsInput {
+  update: UserUpdateWithoutListsDataInput!
+  create: UserCreateWithoutListsInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutMemberListsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutMemberListsDataInput!
+  create: UserCreateWithoutMemberListsInput!
 }
 
 input UserWhereInput {
@@ -201,6 +1091,12 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
+  lists_every: ListWhereInput
+  lists_some: ListWhereInput
+  lists_none: ListWhereInput
+  memberLists_every: ListWhereInput
+  memberLists_some: ListWhereInput
+  memberLists_none: ListWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

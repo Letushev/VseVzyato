@@ -1,11 +1,15 @@
 type Query {
   user: User
+  getLists: [List!]!
+  getMemberLists: [List!]!
 }
 
 type Mutation {
   signup(nick: String!, name: String!, password: String!, avatar: String!): AuthPayload
   login(nick: String!, password: String!): AuthPayload
   editUser(name: String, avatar: String): User
+  createList(name: String!): List
+  inviteUser(nick: String!, listId: ID): List
 }
 
 type AuthPayload {
@@ -18,4 +22,34 @@ type User {
   nick: String!
   name: String!
   avatar: String!
+  lists: [List!]!
+  memberLists: [List!]!
+}
+
+type List {
+  id: ID!
+  name: String!
+  createdBy: User!
+  categories: [Category!]!
+  items: [Item!]!
+  members: [User!]!
+}
+
+type Category {
+  id: ID!
+  name: String!
+}
+
+type Item {
+  id: ID!
+  name: String!
+  description: String
+  priority: Priority!
+  category: Category!
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
 }

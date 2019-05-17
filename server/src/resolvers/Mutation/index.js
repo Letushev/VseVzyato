@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { SECRET_KEY, getUserId } = require('../utils');
+const { SECRET_KEY, getUserId } = require('../../utils');
 
 async function signup(root, args, context) {
   const password = await bcrypt.hash(args.password, 10);
@@ -55,9 +55,42 @@ async function editUser(root, args, context) {
   });
 }
 
+async function createList(root, args, context) {
+  const userId = getUserId(context);
+  return await context.prisma.createList({
+    name: args.name,
+    createdBy: {
+      connect: {
+        id: userId,
+      },
+    },
+  });
+}
+
+async function inviteUser(root, args, context) {
+  const user = await context.prisma.user({ nick: args.nick });
+  if (!user) {
+    throw new Error("Такого користувача не існує");
+  }
+
+  return await context.prisma.updateList({
+    data: {
+      members: {
+        connect: {
+          id: user.id
+        }
+      }
+    },
+    where: {
+      id: args.listId,
+    },
+  })
+}
 
 module.exports = {
   signup,
   login,
   editUser,
+  createList,
+  inviteUser,
 };

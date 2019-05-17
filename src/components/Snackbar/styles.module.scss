@@ -1,0 +1,40 @@
+@import 'styles/variables';
+
+.snackbar {
+  position: fixed;
+  z-index: 99;
+  top: -$xxl;
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  min-width: 300px;
+  height: $xxl;
+  max-height: $xxl;
+  padding: $s $m;
+  border-radius: $xs;
+
+  display: flex;
+  align-items: center;
+
+  color: #fff;
+  font-size: 15px;
+  transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
+
+.active {
+  transform: translate(-50%, 100%);
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+
+.success {
+  background: $softGreen;
+}
+
+.error {
+  background: $red;
+}
+
+.icon {
+  fill: #fff;
+  margin-right: $m;
+}

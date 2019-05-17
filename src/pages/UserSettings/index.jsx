@@ -5,6 +5,7 @@ import * as Avatars from 'assets/avatars';
 import { Input } from 'components/Input';
 import { Button } from 'components/Button';
 import { Modal } from 'components/Modal';
+import { Snackbar } from 'components/Snackbar';
 import styles from './styles.module.scss';
 
 const getProfileData = `
@@ -32,7 +33,7 @@ function UserSettingsPage() {
   const initialUser = useRef(null);
   const [isChangingAvatar, setIsChangingAvatar] = useState(false);
   const [proposeToSave, setProposeToSave] = useState(false);
-
+  const successSnackbar = useRef(null);
 
   useEffect(() => {
     if (!user) {
@@ -114,6 +115,8 @@ function UserSettingsPage() {
               .then(() => {
                 initialUser.current = user;
                 setProposeToSave(false);
+                console.log(successSnackbar.current);
+                successSnackbar.current.trigger();
               })
           }}
         >
@@ -127,6 +130,12 @@ function UserSettingsPage() {
           Скасувати
         </Button>
       </div>
+      <Snackbar
+        state="SUCCESS"
+        ref={successSnackbar}
+      >
+        Зміни успішно збережені
+      </Snackbar>
     </div>
   )
 }

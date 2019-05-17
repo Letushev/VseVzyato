@@ -4,4 +4,34 @@ type User {
   name: String!
   avatar: String!
   password: String!
+  lists: [List!]! @relation(name: "UserListRelation")
+  memberLists: [List!]! @relation(name: "MemberListRelation")
+}
+
+type List {
+  id: ID! @id
+  name: String!
+  createdBy: User! @relation(name: "UserListRelation")
+  categories: [Category!]!
+  members: [User!]! @relation(name: "MemberListRelation")
+  items: [Item!]!
+}
+
+type Category {
+  id: ID! @id
+  name: String! @unique
+}
+
+type Item {
+  id: ID! @id
+  name: String!
+  description: String
+  priority: Priority! @default(value: MEDIUM)
+  category: Category!
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
 }
