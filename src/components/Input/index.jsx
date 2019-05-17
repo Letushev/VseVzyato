@@ -3,7 +3,8 @@ import cn from 'classnames';
 import styles from './styles.module.scss';
 
 export function Input({
-  name, value, onChange, label, containerStyles, invalid, onAfterTouch, ...props
+  name, value, onChange, label, containerStyles,
+  invalid, onAfterTouch, simple, ...props
 }) {
   const [isActive, setIsActive] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
@@ -31,7 +32,7 @@ export function Input({
         label && (
           <span className={cn(
               styles.label,
-              (isActive || value) && styles.raisedLabel,
+              (isActive || value || simple) && styles.raisedLabel,
               isActive && styles.forActiveLabel,
               (invalid && !isActive) && styles.forInvalidLabel,
             )}>
@@ -44,6 +45,7 @@ export function Input({
           styles.input,
           isActive && styles.activeInput,
           (invalid && !isActive) && styles.invalidInput,
+          simple && styles.simpleInput,
         )}
         type="text"
         name={name}

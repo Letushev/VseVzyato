@@ -1,0 +1,90 @@
+@import 'styles/variables';
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  padding: $m 0;
+}
+
+.sidebarList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  height: $xxl;
+  display: flex;
+  align-items: center;
+  padding-left: $l;
+  border-radius: 0 $l $l 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $whiteGray;
+  }
+
+  &.activeListItem {
+    background-color: $whiteBlue;
+    color: $blue;
+
+    .listIcon {
+      fill: $blue;
+    }
+  }
+}
+
+.listIcon {
+  margin-right: $m;
+  fill: $textColor;
+}
+
+.mainBlock {
+  padding: 0 $l;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.emptyBlock {
+  max-width: 300px;
+  margin: 56px auto 0;
+  text-align: center;
+}
+
+.emptyIcon {
+  width: 200px;
+  height: auto;
+  vertical-align: middle;
+}
+
+.emptyText {
+  font-size: 18px;
+}
+
+.loader {
+  margin: 96px auto 0;
+}
+
+.listContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+  grid-gap: $m;
+}
+
+.newListButtons {
+  display: flex;
+  margin-top: $m;
+  justify-content: flex-end;
+
+  & > :not(:first-child) {
+    margin-left: $s;
+  }
+}
+
+.newListInput {
+  width: 350px;
+}

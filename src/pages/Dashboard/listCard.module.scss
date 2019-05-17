@@ -1,0 +1,39 @@
+@import 'styles/variables';
+
+.card {
+  position: relative;
+  border: 1px solid $borderGray;
+  border-radius: $s;
+  padding: $m;
+  transition: .3s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  }
+}
+
+.name {
+  color: $blue;
+  margin: 0 0 $s;
+  font-weight: lighter;
+}
+
+.info {
+  color: $darkGray;
+  margin: $xs 0;
+  font-size: 13px;
+}
+
+.author {
+  font-size: 15px;
+  font-style: italic;
+}
+
+.avatar {
+  position: absolute;
+  top: $m;
+  right: $m;
+  width: $l;
+  border-radius: 50%;
+}

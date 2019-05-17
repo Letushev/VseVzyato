@@ -4,7 +4,8 @@ import cn from 'classnames';
 import styles from './styles.module.scss';
 
 export function Button({
-  className, children, onClick, primary, negative, big, disabled, ...props
+  className, children, onClick, primary,
+  negative, big, disabled, asText, ...props
 }) {
   return (
     <button
@@ -14,6 +15,7 @@ export function Button({
         big && styles.big,
         disabled && styles.disabled,
         negative && styles.negative,
+        asText && styles.asText,
         className,
       )}
       onClick={event => {

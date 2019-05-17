@@ -21,3 +21,18 @@
   border-radius: $s;
   box-shadow: 0 $s $l rgba(0, 0, 0, .4);
 }
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+}
+
+.closeIcon {
+  width: $l;;
+  cursor: pointer;
+}

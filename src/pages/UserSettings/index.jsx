@@ -72,7 +72,7 @@ function UserSettingsPage() {
       </span>
       <Modal
         isOpened={isChangingAvatar}
-        onOutsideClick={() => setIsChangingAvatar(false)}
+        onClose={() => setIsChangingAvatar(false)}
       >
         <div className={styles.modalAvatars}>
           {

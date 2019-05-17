@@ -38,10 +38,12 @@
 
 .profileDropdown {
   position: absolute;
+  z-index: 98;
   top: 100%;
   right: $l;
   min-width: 275px;
   padding: $s 0;
+  background: #fff;
   border-radius: $xs;
   box-shadow: 0 $xs $s rgba(0, 0, 0, .3);
 }

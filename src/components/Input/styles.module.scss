@@ -21,12 +21,18 @@
   transition: .2s border-color;
 }
 
+.simpleInput {
+  border: 1px solid $gray;
+  border-radius: $s;
+  padding: $s $m;
+}
+
 .activeInput {
-  border-bottom-color: $primaryGreen;
+  border-color: $primaryGreen;
 }
 
 .invalidInput {
-  border-bottom-color: $red;
+  border-color: $red;
 }
 
 .label {
