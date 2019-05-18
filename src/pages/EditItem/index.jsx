@@ -8,13 +8,23 @@ import { Button } from 'components/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import styles from 'styles/itemForm.module.scss';
 
-const addMutation = `
-  mutation createItem($name: String!, $count: String, $listId: String!, $priority: Priority!, $members: [String!]) {
-    createItem(name: $name, count: $count, listId: $listId, priority: $priority, members: $members) {
+const editMutation = `
+  mutation editItem($id: ID!, $name: String!, $count: String, $priority: Priority!, $members: [String!]) {
+    editItem(id: $id, name: $name, count: $count, priority: $priority, members: $members) {
+      id
+    }
+  }
+`;
+
+const getItem = `
+  query getItem($id: ID!) {
+    getItem(id: $id) {
       id
       name
+      count
+      priority
       members {
-        name
+        id
       }
     }
   }
@@ -59,16 +69,31 @@ function NewElementPage(props) {
 
   useEffect(() => {
     query({
-      query: getMembers,
+      query: getItem,
       variables: {
-        id: props.match.params.id,
+        id: props.match.params.itemId,
       }
     })
       .then(({ data }) => {
-        setMembers(data.getList.members.map(m => {
-          m.checked = false;
-          return m;
-        }));
+        setName(data.getItem.name);
+        setCount(data.getItem.count);
+        setPriorities(priorities.map(p => ({
+          ...p,
+          selected: data.getItem.priority === p.value,
+        })));
+
+        query({
+          query: getMembers,
+          variables: {
+            id: props.match.params.id,
+          }
+        })
+          .then(({ data: membersData }) => {
+            setMembers(membersData.getList.members.map(m => {
+              m.checked = data.getItem.members.map(_m=> _m.id).includes(m.id);
+              return m;
+            }));
+          });
       });
   }, []);
 
@@ -101,13 +126,13 @@ function NewElementPage(props) {
     setMembers(members.map(m => ({ ...m, checked: checked })));
   }
 
-  const add = () => {
+  const save = () => {
     query({
-      query: addMutation,
+      query: editMutation,
       variables: {
+        id: props.match.params.itemId,
         name: name.trim(),
         count: count.trim(),
-        listId: props.match.params.id,
         priority: priorities.find(p => p.selected).value,
         members: members.filter(m => m.checked).map(m => m.id),
       }
@@ -117,7 +142,6 @@ function NewElementPage(props) {
 
   return (
     <div className={styles.wrapper}>
-      <h1>Новий елемент</h1>
       <form onSubmit={e => e.preventDefault()}>
         <Input
           name="name"
@@ -197,9 +221,9 @@ function NewElementPage(props) {
         <Button
           className={styles.addButton}
           disabled={!isAllValid}
-          onClick={add}
+          onClick={save}
         >
-          ДОДАТИ
+          Зберегти
         </Button>
       </form>
     </div>

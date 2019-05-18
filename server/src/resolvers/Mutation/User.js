@@ -48,7 +48,7 @@ async function refuseUser(root, args, context) {
         disconnect: {
           id: user.id
         }
-      }
+      },
     },
     where: {
       id: args.listId,

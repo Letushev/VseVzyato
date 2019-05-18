@@ -3,6 +3,7 @@ type Query {
   getList(id: ID!): List
   getLists: [List!]!
   getMemberLists: [List!]!
+  getItem(id: ID!): Item
 }
 
 type Mutation {

@@ -6,7 +6,12 @@ async function user(root, args, context) {
   return await context.prisma.user({ id: userId });
 }
 
+async function getItem(root, args, context) {
+  return await context.prisma.item({ id: args.id });
+}
+
 module.exports = {
   user,
+  getItem,
   ...list,
 };

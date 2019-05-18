@@ -5,7 +5,7 @@ import { Loader } from 'components/Loader';
 import { MemberIcon, DeleteIcon, AddIcon, BoxIcon } from 'assets/icons';
 import { Modal } from 'components/Modal';
 import { Button } from 'components/Button';
-import { ItemsTable } from './ItemsTable';
+import ItemsTable from './ItemsTable';
 import styles from './styles.module.scss';
 
 const getUser = `
@@ -30,6 +30,7 @@ const listQuery = `
         id
         name
         count
+        priority
         members {
           name
         }
@@ -41,6 +42,14 @@ const listQuery = `
 const deleteListMutation = `
   mutation deleteList($id: ID!) {
     deleteList(id: $id) {
+      id
+    }
+  }
+`;
+
+const deleteItemMutation = `
+  mutation deleteItem($id: ID!) {
+    deleteItem(id: $id) {
       id
     }
   }
@@ -70,6 +79,22 @@ function ListPage({ match, history }) {
       setIsLoading(false);
     });
   }, []);
+
+  const handleDeleteItem = id => {
+    query({
+      query: deleteItemMutation,
+      variables: {
+        id,
+      }
+    })
+      .then(() => {
+        const items = [...list.items].filter(i => i.id !== id);
+        setList({
+          ...list,
+          items,
+        });
+      });
+  };
 
   if (list && userId) {
     const memberIds = list.members.map(m => m.id);
@@ -144,6 +169,8 @@ function ListPage({ match, history }) {
           : (
             <ItemsTable
               items={list.items}
+              membersCount={list.members.length}
+              onItemDelete={handleDeleteItem}
             />
           )
       }

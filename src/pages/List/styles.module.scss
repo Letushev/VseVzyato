@@ -89,3 +89,30 @@
   width: 225px;
   height: auto;
 }
+
+.priority {
+  display: flex;
+  align-items: center;
+}
+
+.priorityIcon {
+  width: 18px;
+  margin-left: $s;
+
+  &.high {
+    fill: $red;
+  }
+
+  &.medium {
+    fill: $yellow,
+  }
+
+  &.low {
+    fill: $softGreen;
+  }
+}
+
+.deleteItemIcon {
+  cursor: pointer;
+  width: 18px;
+}
